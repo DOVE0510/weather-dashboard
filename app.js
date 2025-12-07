@@ -355,6 +355,15 @@ function updateUI() {
     document.getElementById("rainIntensityValue").textContent =
         weatherData.rainIntensity + "%";
 
+    // Mini Monitor Updates
+    document.getElementById("feelsLikeValue").textContent =
+        weatherData.temperature.toFixed(1) + "°C";
+
+    document.getElementById("humidityMini").textContent =
+        weatherData.humidity.toFixed(0) + "%";
+
+    document.getElementById("windMini").textContent =
+        weatherData.windSpeed.toFixed(1) + " km/h"; 
     // WIND UI UPDATE
     document.getElementById("windValue").textContent =
         weatherData.windSpeed.toFixed(1) + " km/h";

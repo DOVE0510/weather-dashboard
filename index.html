@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Pro - Dashboard</title>
+     <meta name="viewport" content="width=1280, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>NEGAR - Dashboard</title>
 
     <link rel="stylesheet" href="style.css">
 
@@ -32,17 +33,65 @@
 <section id="pageDashboard">
 
     <!-- HERO WEATHER CARD -->
-    <div class="hero-weather">
-        <div id="heroIcon" class="hero-icon">☀</div>
+<div class="hero-weather">
 
+    <!-- LEFT: Weather Icon -->
+    <div class="hero-left">
+        <div id="heroIcon" class="hero-icon">☀</div>
         <div class="hero-info">
             <h1 id="heroTemp">--°C</h1>
             <p id="heroDesc">Waiting for data…</p>
-            <small id="lastUpdate">Time: --:--:--</small>
 
-            
+            <div class="hero-time">
+                <small id="lastUpdate">Time: --:--:--</small>
+            </div>
         </div>
     </div>
+  <!-- MINI MONITOR (Apple Weather style) -->
+<div class="mini-monitor">
+
+    <div class="monitor-item">
+        <span class="monitor-label">Feels Like  </span>
+        <span id="feelsLikeValue" class="monitor-value">--°C</span>
+    </div>
+
+    <div class="monitor-item">
+        <span class="monitor-label">Humidity </span>
+        <span id="humidityMini" class="monitor-value">--%</span>
+    </div>
+
+    <div class="monitor-item">
+        <span class="monitor-label">Wind </span>
+        <span id="windMini" class="monitor-value">-- km/h</span>
+    </div>
+
+</div>
+
+    <!-- RIGHT: LED CONTROL -->
+    <div class="hero-led">
+        <h3><i data-lucide="lightbulb"></i> LED Control</h3>
+
+        <div class="hero-led-status">
+            Status: <span id="ledStatusText">--</span>
+        </div>
+
+        <!-- Manual Mode Switch -->
+        <label class="switch">
+            <input type="checkbox" id="manualModeSwitch" onchange="toggleManualMode()">
+            <span class="slider"></span>
+        </label>
+        <p class="switch-label">Manual Mode</p>
+
+        <!-- LED ON/OFF Switch -->
+        <label class="switch">
+            <input type="checkbox" id="ledPowerSwitch" onchange="manualSetLED()" disabled>
+            <span class="slider"></span>
+        </label>
+        <p class="switch-label">LED Power</p>
+    </div>
+
+</div>
+
 
     <!-- STATUS CARDS -->
     <div class="status-grid">
@@ -176,27 +225,8 @@
             <p id="rainIntensityLabel" class="rain-below">Dry</p>
         </div>
 
-        <!-- LED CONTROL -->
-        <div class="metric-card">
-            <h3><i data-lucide="lightbulb"></i> LED Control</h3>
-
-            <div style="margin: 10px 0; font-size: 1.3rem;">
-                Status: <span id="ledStatusText">--</span>
             </div>
 
-            <!-- Manual Mode Switch -->
-            <label class="switch">
-                <input type="checkbox" id="manualModeSwitch" onchange="toggleManualMode()">
-                <span class="slider"></span>
-            </label>
-            <p class="switch-label">Manual Mode</p>
-
-            <!-- LED ON/OFF Switch -->
-            <label class="switch">
-                <input type="checkbox" id="ledPowerSwitch" onchange="manualSetLED()" disabled>
-                <span class="slider"></span>
-            </label>
-            <p class="switch-label">LED Power</p>
         </div>
 
     </div>

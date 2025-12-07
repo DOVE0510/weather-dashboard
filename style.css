@@ -848,3 +848,123 @@ input:checked + .slider:before {
     margin-top: 4px;
 }
 
+.hero-weather {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+
+.hero-left {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.hero-led {
+    min-width: 220px;
+    padding: 20px;
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.22);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-led-status {
+    margin: 10px 0;
+    font-size: 1.3rem;
+}
+
+
+/* ============================================
+   LED CONTROL – PINK CARD STYLE (Apple-like)
+============================================ */
+
+.hero-led {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    padding: 0;              /* remove card padding */
+    border-radius: 0;         /* remove rounded corners */
+    backdrop-filter: none;    /* remove blur */
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;  /* align to the left instead of center */
+    text-align: left;
+}
+
+
+
+/* LED Title */
+.hero-led h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    opacity: 0.9;
+}
+
+/* Status text */
+.hero-led-status {
+    font-size: 1.25rem;
+    margin: 10px 0 18px 0;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+/* Switch labels */
+.hero-led .switch-label {
+    margin: 8px 0 18px 0;
+    font-size: 1rem;
+    opacity: 0.8;
+}
+/* Apple Weather Mini Fact List */
+.mini-monitor {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 20px;
+    padding: 10px 4px;
+}
+
+.monitor-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0.9;
+}
+
+.monitor-label {
+    font-size: 1.05rem;
+    opacity: 0.7;
+}
+
+.monitor-value {
+    font-size: 1.45rem;
+    font-weight: 600;
+}
+
+.hero-led {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+}
+
+.switch input:disabled + .slider {
+    cursor: not-allowed;
+    opacity: 0.4;   /* dim the switch */
+}
+
+.switch input:disabled + .slider:before {
+    background: #ccc;   /* dim the knob */
+}
