@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     <meta name="viewport" content="width=1280, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>NEGAR - Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- MQTT -->
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>             
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="theme-day">
+
+<!-- ===================== TOPBAR ===================== -->
+<header class="topbar">
+    <div class="logo">🌤 Weather Monitoring</div>
+
+    <nav class="topnav">
+        <button id="btnDashboard" class="active" onclick="showPage('dashboard')">DASHBOARD</button>
+        <button id="btnStatus" onclick="showPage('status')">SENSORS STATUS</button>
+    </nav>
+</header>
+
+<main>
+
+<!-- ===================== DASHBOARD PAGE ===================== -->
+<section id="pageDashboard">
+
+    <!-- HERO WEATHER CARD -->
+<div class="hero-weather">
+
+    <!-- LEFT: Weather Icon -->
+    <div class="hero-left">
+        <div id="heroIcon" class="hero-icon">☀</div>
+        <div class="hero-info">
+            <h1 id="heroTemp">--°C</h1>
+            <p id="heroDesc">Waiting for data…</p>
+
+            <div class="hero-time">
+                <small id="lastUpdate">Time: --:--:--</small>
+            </div>
+        </div>
+    </div>
+  <!-- MINI MONITOR (Apple Weather style) -->
+<div class="mini-monitor">
+
+    <div class="monitor-item">
+        <span class="monitor-label">Feels Like  </span>
+        <span id="feelsLikeValue" class="monitor-value">--°C</span>
+    </div>
+
+    <div class="monitor-item">
+        <span class="monitor-label">Humidity </span>
+        <span id="humidityMini" class="monitor-value">--%</span>
+    </div>
+
+    <div class="monitor-item">
+        <span class="monitor-label">Wind </span>
+        <span id="windMini" class="monitor-value">-- km/h</span>
+    </div>
+
+</div>
+
+    <!-- RIGHT: LED CONTROL -->
+    <div class="hero-led">
+        <h3><i data-lucide="lightbulb"></i> LED Control</h3>
+
+        <div class="hero-led-status">
+            Status: <span id="ledStatusText">--</span>
+        </div>
+
+        <!-- Manual Mode Switch -->
+        <label class="switch">
+            <input type="checkbox" id="manualModeSwitch" onchange="toggleManualMode()">
+            <span class="slider"></span>
+        </label>
+        <p class="switch-label">Manual Mode</p>
+
+        <!-- LED ON/OFF Switch -->
+        <label class="switch">
+            <input type="checkbox" id="ledPowerSwitch" onchange="manualSetLED()" disabled>
+            <span class="slider"></span>
+        </label>
+        <p class="switch-label">LED Power</p>
+    </div>
+
+</div>
+
+
+    <!-- STATUS CARDS -->
+    <div class="status-grid">
+        <div class="status-card">
+            <i data-lucide="sun"></i>
+            <span id="dayNightText">--</span>
+        </div>
+
+        <div class="status-card">
+            <i data-lucide="cloud"></i>
+            <span id="rainText">--</span>
+        </div>
+    </div>
+
+    <!-- METRICS GRID -->
+    <div class="metrics-grid">
+
+      <!-- WIND UI -->
+<div class="metric-card wind-card wide apple-wind">
+    <h3><i data-lucide="wind"></i> Wind</h3>
+
+    <div class="apple-wind-container">
+
+        <!-- WIND INFO -->
+        <div class="apple-wind-info">
+            <p><strong>Wind:</strong> <span id="windValue">-- km/h</span></p>
+            <p><strong>Direction:</strong>
+                <span id="windDirection">--° ---</span>
+            </p>
+        </div>
+
+        <!-- DIAL -->
+        <div class="apple-wind-dial">
+            <div class="apple-dial-circle">
+                <div id="windArrow" class="apple-dial-arrow"></div>
+
+                <div id="windCenterSpeed" class="apple-dial-center">
+                    --<br><small>km/h</small>
+                </div>
+            </div>
+
+            <!-- Compass Labels -->
+            <div class="apple-dial-labels">
+              <!-- Cardinal -->
+                  <span class="n">N</span>
+                  <span class="e">E</span>
+                  <span class="s">S</span>
+                  <span class="w">W</span>
+                  <!-- Degrees -->
+                  <span class="deg d0">0°</span>
+                  <span class="deg d45">45°</span>
+                  <span class="deg d90">90°</span>
+                  <span class="deg d135">135°</span>
+                  <span class="deg d180">180°</span>
+                  <span class="deg d225">225°</span>
+                  <span class="deg d270">270°</span>
+                  <span class="deg d315">315°</span>
+
+                            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        <!-- TEMPERATURE -->
+        <div class="metric-card">
+            <h3><i data-lucide="thermometer"></i> Temperature</h3>
+            <div class="metric-value" id="tempValue">--°C</div>
+
+            <div class="progress-bar">
+                <div id="tempBar" class="progress-fill temp"></div>
+            </div>
+
+            <small id="tempMinMax">
+                Min: -- / Max: --<br>
+                Avg: <span id="tempAvg">--</span>
+            </small>
+        </div>
+
+        <!-- HUMIDITY -->
+        <div class="metric-card">
+            <h3><i data-lucide="droplet"></i> Humidity</h3>
+            <div class="metric-value" id="humidityValue">--%</div>
+
+            <div class="progress-bar">
+                <div id="humidityBar" class="progress-fill humidity"></div>
+            </div>
+
+            <small id="humMinMax">
+                Min: -- / Max: --<br>
+                Avg: <span id="humAvg">--</span>
+            </small>
+        </div>
+
+        <!-- PRESSURE -->
+        <div class="metric-card">
+            <h3><i data-lucide="gauge"></i> Pressure</h3>
+
+            <!-- Move the pressure text UP like other cards -->
+            <div class="metric-value" id="pressureValue">-- hPa</div>
+
+            <!-- Optional empty bar to keep formatting consistent -->
+            <div class="progress-bar" style="opacity:0;"></div>
+        </div>
+
+        <!-- LIGHT -->
+        <div class="metric-card">
+            <h3><i data-lucide="sunrise"></i> Light</h3>
+            <div class="metric-value" id="lightValue">-- lux</div>
+
+            <div class="progress-bar">
+                <div id="lightBar" class="progress-fill light"></div>
+            </div>
+
+            <small id="lightMinMax">
+                Min: -- / Max: --<br>
+                Avg: <span id="lightAvg">--</span>
+            </small>
+        </div>
+
+        <!-- RAIN INTENSITY -->
+        <div class="metric-card">
+            <h3><i data-lucide="cloud-rain"></i> Rain Intensity</h3>
+            <div class="metric-value" id="rainIntensityValue">--%</div>
+
+            <div class="progress-bar">
+                <div id="rainIntensityBar" class="progress-fill rain"></div>
+            </div>
+
+            <p id="rainIntensityLabel" class="rain-below">Dry</p>
+        </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================== STATUS PAGE ===================== -->
+<section id="pageStatus" style="display:none;">
+
+    <div class="status-wrapper">
+        <h2>Sensor Status</h2>
+
+        <div class="sensor-list">
+            <p>Temperature Sensor: <span id="sTemp">--</span></p>
+            <p>Humidity Sensor: <span id="sHumidity">--</span></p>
+            <p>Pressure Sensor: <span id="sPressure">--</span></p>
+            <p>Light Sensor: <span id="sLight">--</span></p>
+            <p>Rain Sensor: <span id="sRain">--</span></p>
+            <p>LED Status: <span id="sLED">--</span></p>
+        </div>
+    </div>
+
+</section>
+
+</main>
+
+<!-- Main App Logic -->
+<script src="app.js"></script>
+<script>
+    lucide.createIcons();
+</script>
+
+</body>
+</html>
